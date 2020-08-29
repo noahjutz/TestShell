@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         setContent {
             MaterialTheme(colors = if (isSystemInDarkTheme()) darkColors() else lightColors()) {
-                Content(clipboard, false)
+                Content(clipboard)
             }
         }
 
@@ -55,8 +55,7 @@ class MainActivity : AppCompatActivity() {
 
 @Composable
 fun Content(
-    clipboard: ClipboardManager?,
-    preview: Boolean
+    clipboard: ClipboardManager?
 ) {
     val input = remember { mutableStateOf("") }
     val result = remember { mutableStateOf("No output yet :(") }
@@ -108,7 +107,7 @@ fun Content(
                 )
             }
             Surface(modifier = Modifier.gravity(Alignment.CenterHorizontally)) {
-                if (!preview) AdBanner()
+                AdBanner()
             }
         }
     }
@@ -131,7 +130,7 @@ fun AdBanner() {
 @Preview
 fun ContentPreview() {
     MaterialTheme {
-        Content(null, true)
+        Content(null)
     }
 }
 
