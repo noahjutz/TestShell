@@ -1,5 +1,6 @@
 package com.example.testshell
 
+import android.graphics.fonts.FontStyle
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Icon
@@ -15,7 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.setContent
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
 
@@ -36,8 +37,6 @@ fun Content() {
     val result = remember { mutableStateOf("No output yet :(") }
     Scaffold(topBar = { TopAppBar(title = { Text("TestShell") }) }) {
         Column(
-            horizontalGravity = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxWidth().fillMaxHeight().padding(24.dp)
         ) {
             Row(
@@ -46,16 +45,20 @@ fun Content() {
             ) {
                 OutlinedTextField(
                     value = input.value,
-                    onValueChange = {input.value = it},
+                    onValueChange = { input.value = it },
                     label = { Text("Command") },
-                    modifier = Modifier.padding(end = 16.dp)
+                    modifier = Modifier.padding(end = 16.dp).weight(1f)
                 )
                 IconButton(
                     icon = { Icon(Icons.Filled.Send) },
                     onClick = { result.value = ShellExecutor.execute(input.value) },
                 )
             }
-            Text(result.value)
+            Text(
+                text = result.value,
+                fontFamily = FontFamily.Monospace,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }

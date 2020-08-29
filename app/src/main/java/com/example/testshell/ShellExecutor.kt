@@ -7,8 +7,9 @@ object ShellExecutor {
                 waitFor()
                 inputStream.reader().forEachLine { append(it) }
             }
-        } catch (e: IllegalArgumentException) {
-            append("Error")
+        } catch (e: Exception) {
+            append("Error:")
+            append(e)
         }
     }.toString()
 }
