@@ -4,15 +4,15 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.setContent
+import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
 
 class MainActivity : AppCompatActivity() {
@@ -28,16 +28,21 @@ class MainActivity : AppCompatActivity() {
 
 @Composable
 fun Content() {
+    val result = remember { mutableStateOf("") }
     Scaffold(topBar = { TopAppBar(title = { Text("TestShell") }) }) {
         Column(
-                horizontalGravity = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth().fillMaxHeight()
+            horizontalGravity = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth().fillMaxHeight()
         ) {
             Button(
-                    content = { Text("Click me!") },
-                    onClick = {ShellExecutor.execute("echo \"Hello World\"")}
+                content = { Text("Click me!") },
+                onClick = {
+                    result.value = ShellExecutor.execute("echo \"Hello World\"")
+                },
+                modifier = Modifier.padding(bottom = 16.dp)
             )
+            Text(result.value)
         }
     }
 }

@@ -5,20 +5,16 @@ import android.util.Log
 object ShellExecutor {
     private const val TAG = "ShellExecutor"
 
-    fun execute(command: String): String {
-        Log.d(TAG, "execute: $command")
-        val result = StringBuilder()
+    fun execute(command: String) = StringBuilder().apply {
         try {
             Runtime.getRuntime().exec(command).apply {
                 waitFor()
                 inputStream.reader().forEachLine {
-                    result.append(it)
+                    append(it)
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        Log.d(TAG, "execute: $result")
-        return result.toString()
-    }
+    }.toString()
 }
