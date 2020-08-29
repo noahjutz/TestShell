@@ -9,24 +9,32 @@ import androidx.compose.foundation.Icon
 import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope.gravity
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.AttachMoney
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ContextAmbient
 import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.ui.tooling.preview.Preview
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import com.noahjutz.testshell.AdConstants.testAdUnitId
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("ServiceCast")
@@ -35,17 +43,18 @@ class MainActivity : AppCompatActivity() {
         val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         setContent {
             MaterialTheme(colors = if (isSystemInDarkTheme()) darkColors() else lightColors()) {
-                Content(clipboard)
+                Content(clipboard, false)
             }
         }
 
-        MobileAds.initialize(this) {}
+        MobileAds.initialize(this)
     }
 }
 
 @Composable
 fun Content(
-    clipboard: ClipboardManager?
+    clipboard: ClipboardManager?,
+    preview: Boolean
 ) {
     val input = remember { mutableStateOf("") }
     val result = remember { mutableStateOf("No output yet :(") }
@@ -55,45 +64,63 @@ fun Content(
             navigationIcon = { IconButton(onClick = {}, icon = { Icon(Icons.Filled.AttachMoney) }) }
         )
     }) {
-        ScrollableColumn(
-            modifier = Modifier.fillMaxWidth()
-                .fillMaxHeight()
-                .padding(start = 16.dp, end = 16.dp)
-        ) {
-            Row(
-                verticalGravity = Alignment.CenterVertically,
-                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+        Column {
+            ScrollableColumn(
+                modifier = Modifier.fillMaxWidth()
+                    .weight(1f)
+                    .padding(start = 16.dp, end = 16.dp)
             ) {
-                TextField(
-                    value = input.value,
-                    onValueChange = { input.value = it },
-                    label = { Text("Command") },
-                    modifier = Modifier.padding(end = 16.dp)
-                        .weight(1f)
+                Row(
+                    verticalGravity = Alignment.CenterVertically,
+                    modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+                ) {
+                    TextField(
+                        value = input.value,
+                        onValueChange = { input.value = it },
+                        label = { Text("Command") },
+                        modifier = Modifier.padding(end = 16.dp)
+                            .weight(1f)
+                    )
+                    IconButton(
+                        icon = { Icon(Icons.Filled.Done) },
+                        onClick = { result.value = ShellExecutor.execute(input.value) }
+                    )
+                }
+                Text(
+                    text = result.value,
+                    fontFamily = FontFamily.Monospace,
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(bottom = 16.dp)
                 )
-                IconButton(
-                    icon = { Icon(Icons.Filled.Done) },
-                    onClick = { result.value = ShellExecutor.execute(input.value) }
+                Button(
+                    onClick = {
+                        clipboard!!.setPrimaryClip(ClipData.newPlainText("result", result.value))
+                    },
+                    content = {
+                        Icon(Icons.Filled.ContentCopy)
+                        Text("Copy output")
+                    },
+                    modifier = Modifier.gravity(Alignment.CenterHorizontally)
+                        .gravity(Alignment.Bottom)
+                        .padding(bottom = 16.dp)
                 )
             }
-            Text(
-                text = result.value,
-                fontFamily = FontFamily.Monospace,
-                modifier = Modifier.fillMaxWidth()
-                    .padding(bottom = 16.dp)
-            )
-            Button(
-                onClick = {
-                    clipboard!!.setPrimaryClip(ClipData.newPlainText("result", result.value))
-                },
-                content = {
-                    Icon(Icons.Filled.ContentCopy)
-                    Text("Copy output")
-                },
-                modifier = Modifier.gravity(Alignment.CenterHorizontally)
-                    .gravity(Alignment.Bottom)
-                    .padding(bottom = 16.dp)
-            )
+            Surface(modifier = Modifier.gravity(Alignment.CenterHorizontally)) {
+                if (!preview) AdBanner()
+            }
+        }
+    }
+}
+
+@Composable
+fun AdBanner() {
+    val context = ContextAmbient.current
+    val customView = remember { AdView(context) }
+    AndroidView(viewBlock = { customView }) {
+        it.apply {
+            adSize = AdSize.BANNER
+            adUnitId = testAdUnitId
+            loadAd(AdRequest.Builder().build())
         }
     }
 }
@@ -102,6 +129,12 @@ fun Content(
 @Preview
 fun ContentPreview() {
     MaterialTheme {
-        Content(null)
+        Content(null, true)
     }
+}
+
+object AdConstants {
+    const val adUnitId = "ca-app-pub-7450355346929746/8415970128"
+    const val testAdUnitId = "ca-app-pub-3940256099942544/6300978111"
+    const val appId = "ca-app-pub-7450355346929746~3924214862"
 }
