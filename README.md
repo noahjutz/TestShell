@@ -1,5 +1,5 @@
+![](https://github.com/noahjutz/TestShell/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
 # TestShell
-![](https://github.com/noahjutz/TestShell/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)  
 Simple Android App for executing Linux shell commands.
 
 ### Screenshots
