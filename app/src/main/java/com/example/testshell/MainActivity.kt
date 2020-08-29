@@ -33,13 +33,11 @@ fun Content() {
         Column(
             horizontalGravity = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth().fillMaxHeight()
+            modifier = Modifier.fillMaxWidth().fillMaxHeight().padding(24.dp)
         ) {
             Button(
                 content = { Text("Click me!") },
-                onClick = {
-                    result.value = ShellExecutor.execute("echo \"Hello World\"")
-                },
+                onClick = { result.value = ShellExecutor.execute("uname -a") },
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             Text(result.value)
