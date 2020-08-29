@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
+import com.google.android.gms.ads.MobileAds
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("ServiceCast")
@@ -37,6 +38,8 @@ class MainActivity : AppCompatActivity() {
                 Content(clipboard)
             }
         }
+
+        MobileAds.initialize(this) {}
     }
 }
 
