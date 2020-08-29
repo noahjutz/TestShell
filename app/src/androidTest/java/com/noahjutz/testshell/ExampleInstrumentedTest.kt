@@ -1,4 +1,4 @@
-package com.example.testshell
+package com.noahjutz.testshell
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

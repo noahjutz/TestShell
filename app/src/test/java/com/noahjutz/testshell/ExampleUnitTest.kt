@@ -1,4 +1,4 @@
-package com.example.testshell
+package com.noahjutz.testshell
 
 import org.junit.Test
 

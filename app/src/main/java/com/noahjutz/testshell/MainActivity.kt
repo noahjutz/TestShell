@@ -1,4 +1,4 @@
-package com.example.testshell
+package com.noahjutz.testshell
 
 import android.annotation.SuppressLint
 import android.content.ClipData
@@ -23,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.setContent
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
