@@ -8,7 +8,7 @@ object ShellExecutor {
                 inputStream.reader().forEachLine { append(it) }
             }
         } catch (e: Exception) {
-            append("Error:")
+            append("Error:\n")
             append(e)
         }
     }.toString()

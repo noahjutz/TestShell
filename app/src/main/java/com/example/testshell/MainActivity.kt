@@ -1,6 +1,5 @@
 package com.example.testshell
 
-import android.graphics.fonts.FontStyle
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Icon
@@ -9,6 +8,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -43,15 +43,15 @@ fun Content() {
                 verticalGravity = Alignment.CenterVertically,
                 modifier = Modifier.padding(bottom = 16.dp)
             ) {
-                OutlinedTextField(
+                TextField(
                     value = input.value,
                     onValueChange = { input.value = it },
                     label = { Text("Command") },
                     modifier = Modifier.padding(end = 16.dp).weight(1f)
                 )
                 IconButton(
-                    icon = { Icon(Icons.Filled.Send) },
-                    onClick = { result.value = ShellExecutor.execute(input.value) },
+                    icon = { Icon(Icons.Filled.Done) },
+                    onClick = { result.value = ShellExecutor.execute(input.value) }
                 )
             }
             Text(
