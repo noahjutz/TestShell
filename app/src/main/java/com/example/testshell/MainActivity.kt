@@ -1,5 +1,8 @@
 package com.example.testshell
 
+import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Icon
@@ -22,23 +25,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.setContent
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
 
 class MainActivity : AppCompatActivity() {
+    @SuppressLint("ServiceCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         setContent {
             MaterialTheme(colors = if (isSystemInDarkTheme()) darkColors() else lightColors()) {
-                Content()
+                Content(clipboard)
             }
         }
     }
 }
 
 @Composable
-fun Content() {
+fun Content(
+    clipboard: ClipboardManager?
+) {
     val input = remember { mutableStateOf("") }
     val result = remember { mutableStateOf("No output yet :(") }
     Scaffold(topBar = {
@@ -75,7 +83,9 @@ fun Content() {
                     .padding(bottom = 16.dp)
             )
             Button(
-                onClick = { /* TODO */ },
+                onClick = {
+                    clipboard!!.setPrimaryClip(ClipData.newPlainText("result", result.value))
+                },
                 content = {
                     Icon(Icons.Filled.ContentCopy)
                     Text("Copy output")
@@ -92,6 +102,6 @@ fun Content() {
 @Preview
 fun ContentPreview() {
     MaterialTheme {
-        Content()
+        Content(null)
     }
 }
