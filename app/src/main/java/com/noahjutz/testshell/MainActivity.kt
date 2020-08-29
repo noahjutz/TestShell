@@ -36,6 +36,8 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.noahjutz.testshell.AdConstants.testAdUnitId
 
+const val DEBUG = BuildConfig.BUILD_TYPE != "release"
+
 class MainActivity : AppCompatActivity() {
     @SuppressLint("ServiceCast")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -119,7 +121,7 @@ fun AdBanner() {
     AndroidView(viewBlock = { customView }) {
         it.apply {
             adSize = AdSize.BANNER
-            adUnitId = testAdUnitId
+            adUnitId = if (DEBUG) testAdUnitId else adUnitId
             loadAd(AdRequest.Builder().build())
         }
     }
