@@ -9,7 +9,7 @@ object ShellExecutor {
             }
         } catch (e: Exception) {
             append("Error:\n")
-            append(e)
+            append(e.stackTraceToString())
         }
-    }.toString()
+    }.toString().trim()
 }

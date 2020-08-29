@@ -3,12 +3,18 @@ package com.example.testshell
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Icon
+import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope.gravity
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -38,21 +44,24 @@ fun Content() {
     Scaffold(topBar = {
         TopAppBar(
             title = { Text("TestShell") },
-            navigationIcon = { IconButton(onClick = {}, icon = {Icon(Icons.Filled.Code)}) }
+            navigationIcon = { IconButton(onClick = {}, icon = { Icon(Icons.Filled.Code) }) }
         )
     }) {
-        Column(
-            modifier = Modifier.fillMaxWidth().fillMaxHeight().padding(16.dp)
+        ScrollableColumn(
+            modifier = Modifier.fillMaxWidth()
+                .fillMaxHeight()
+                .padding(start = 16.dp, end = 16.dp)
         ) {
             Row(
                 verticalGravity = Alignment.CenterVertically,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
             ) {
                 TextField(
                     value = input.value,
                     onValueChange = { input.value = it },
                     label = { Text("Command") },
-                    modifier = Modifier.padding(end = 16.dp).weight(1f)
+                    modifier = Modifier.padding(end = 16.dp)
+                        .weight(1f)
                 )
                 IconButton(
                     icon = { Icon(Icons.Filled.Done) },
@@ -63,6 +72,17 @@ fun Content() {
                 text = result.value,
                 fontFamily = FontFamily.Monospace,
                 modifier = Modifier.fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            )
+            Button(
+                onClick = { /* TODO */ },
+                content = {
+                    Icon(Icons.Filled.ContentCopy)
+                    Text("Copy output")
+                },
+                modifier = Modifier.gravity(Alignment.CenterHorizontally)
+                    .gravity(Alignment.Bottom)
+                    .padding(bottom = 16.dp)
             )
         }
     }
