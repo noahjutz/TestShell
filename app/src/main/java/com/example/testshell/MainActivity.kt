@@ -8,8 +8,8 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,9 +35,14 @@ class MainActivity : AppCompatActivity() {
 fun Content() {
     val input = remember { mutableStateOf("") }
     val result = remember { mutableStateOf("No output yet :(") }
-    Scaffold(topBar = { TopAppBar(title = { Text("TestShell") }) }) {
+    Scaffold(topBar = {
+        TopAppBar(
+            title = { Text("TestShell") },
+            navigationIcon = { IconButton(onClick = {}, icon = {Icon(Icons.Filled.Code)}) }
+        )
+    }) {
         Column(
-            modifier = Modifier.fillMaxWidth().fillMaxHeight().padding(24.dp)
+            modifier = Modifier.fillMaxWidth().fillMaxHeight().padding(16.dp)
         ) {
             Row(
                 verticalGravity = Alignment.CenterVertically,
