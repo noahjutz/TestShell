@@ -16,9 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Code
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,7 +50,7 @@ fun Content(
     Scaffold(topBar = {
         TopAppBar(
             title = { Text("TestShell") },
-            navigationIcon = { IconButton(onClick = {}, icon = { Icon(Icons.Filled.Code) }) }
+            navigationIcon = { IconButton(onClick = {}, icon = { Icon(Icons.Filled.AttachMoney) }) }
         )
     }) {
         ScrollableColumn(
