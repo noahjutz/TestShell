@@ -36,7 +36,7 @@ fun Content() {
         ) {
             Button(
                     content = { Text("Click me!") },
-                    onClick = {}
+                    onClick = {ShellExecutor.execute("echo \"Hello World\"")}
             )
         }
     }
