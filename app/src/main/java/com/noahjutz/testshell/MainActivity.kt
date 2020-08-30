@@ -37,6 +37,7 @@ import com.noahjutz.testshell.AdConstants.interstitialId
 import com.noahjutz.testshell.AdConstants.testBannerId
 import com.noahjutz.testshell.AdConstants.testInterstitialId
 
+const val TAG = "MainActivity"
 const val DEBUG = BuildConfig.BUILD_TYPE != "release"
 
 class MainActivity : AppCompatActivity() {
@@ -57,10 +58,11 @@ class MainActivity : AppCompatActivity() {
             adUnitId = if (DEBUG) testInterstitialId else interstitialId
             loadAd(AdRequest.Builder().build())
         }
+        Log.d(TAG, "DEBUG: $DEBUG")
     }
 
     private fun showInterstitial() {
-        interstitialAd.apply { if (isLoaded) show() else Log.d("InterstitialAd", "Not loaded") }
+        interstitialAd.apply { if (isLoaded) show() else Log.d(TAG, "Not loaded") }
     }
 }
 
