@@ -75,7 +75,7 @@ fun Content(
     val result = remember { mutableStateOf("No output yet :(") }
     Scaffold(topBar = {
         TopAppBar(
-            title = { Text("TestShell") },
+            title = { Text(text = "TestShell", fontFamily = FontFamily.Monospace) },
             navigationIcon = { IconButton(onClick = {}, icon = { Icon(Icons.Filled.AttachMoney) }) }
         )
     }) {
@@ -92,7 +92,7 @@ fun Content(
                     TextField(
                         value = input.value,
                         onValueChange = { input.value = it },
-                        label = { Text("Command") },
+                        label = { Text(text = "Command", fontFamily = FontFamily.Monospace) },
                         modifier = Modifier.padding(end = 16.dp)
                             .weight(1f)
                     )
@@ -115,8 +115,11 @@ fun Content(
                         clipboard!!.setPrimaryClip(ClipData.newPlainText("result", result.value))
                     },
                     content = {
-                        Icon(Icons.Filled.ContentCopy)
-                        Text("Copy output")
+                        Icon(
+                            asset = Icons.Filled.ContentCopy,
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+                        Text(text = "Copy output")
                     },
                     modifier = Modifier.gravity(Alignment.CenterHorizontally)
                         .gravity(Alignment.Bottom)
